@@ -1,0 +1,35 @@
+/**
+ * Require styles for University App
+**/
+
+.form-side {
+	width: 50%;
+	float: left;
+}
+
+.form-side .form-block {
+	width: 90%;
+}
+
+.form-side label {
+	width: 100%;
+	float: none;
+	display: block;
+	margin-bottom: 15px;
+}
+
+.form-side input[type=text],
+.form-side input[type=tel],
+.form-side input[type=email],
+.form-side select,
+.form-side textarea {
+	width: 80%;
+}
+
+.form-side select {
+	padding: 10px;
+}
+
+.form-buttons {
+	padding: 20px 0;
+}
