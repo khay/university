@@ -1,0 +1,65 @@
+<div class="uni-wrapper clearfix">
+
+	{{ Form::start(adminUrl("university/".$method), 'uniAddForm', false, array('class' => 'form')) }}
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.name'), 'name') }}</label>
+			{{ Form::input('name', isset($university->name) ? $university->name : '', 'text', array('id' => 'uniEmail')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.summary'), 'summary') }}</label>
+			{{ Form::textarea('summary', isset($university->summary) ? $university->summary : '', array('id' => 'uniSummary')) }}
+		</div>
+		<div class="form-block">
+			<label for="about">{{ Form::label(t('university::university.label.about'), 'about') }}</label>
+			{{ Form::cksimple('about', isset($university->about) ? $university->about : '') }}
+		</div>
+	</div>
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="country_list">{{ Form::label(t('university::university.label.country'), 'country_list') }}</label>
+			{{ Form::select('country', Config::get('country'), isset($university->country) ? $university->country : '') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.city'), 'city') }}</label>
+			{{ Form::input('city', isset($university->city) ? $university->city : '', 'text', array('id' => 'uniCity')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.phone'), 'phone') }}</label>
+			{{ Form::tel('phone', isset($university->phone) ? $university->phone : '', array('id' => 'uniPhone')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.fax'), 'fax') }}</label>
+			{{ Form::input('fax', isset($university->fax) ? $university->fax : '', 'text', array('id' => 'uniFax')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.email'), 'email') }}</label>
+			{{ Form::email('email', isset($university->email) ? $university->email : '', array('id' => 'uniEmail')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.website'), 'website') }}</label>
+			{{ Form::input('website', isset($university->website) ? $university->website : '', 'text', array('id' => 'uniWebsite')) }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::university.label.photo'), 'photo') }}</label>
+                {{ Form::thumbnail('photo', isset($university->photo) ? $university->photo : '', array('add' => t('blog::blog.add_featured_img'), 'remove' => t('blog::blog.remove_featured_img'))) }}
+            </div>
+		</div>
+	</div>
+
+	<div class="form-buttons">
+		{{ Form::hidden('method', $method) }}		
+		{{ if ($method == 'add') }}
+			{{ Form::submit('submit', t('university::university.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+		{{ else }}
+			{{ Form::hidden('id', $id) }}
+			{{ Form::submit('submit', t('university::university.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+		{{ endif }}
+		<a href="{{ adminUrl("university") }}">{{ t('university::university.label.cancel') }}</a>
+	</div>	
+
+	{{ Form::end( ) }}
+
+</div>
