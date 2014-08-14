@@ -21,6 +21,7 @@ class UniversityController extends \AdminController
 	 **/
 	public function before() 
 	{
+		$this->menu->activeParent('university');
         $this->template->style('university.css', 'university');
         $this->template->script('blog.js','blog');
 
@@ -113,7 +114,7 @@ class UniversityController extends \AdminController
 	public function edit($id = null)
 	{
 		if (Input::isPost()) {
-			$validate = $this->validate(Config::get('university::validator.addForm'));
+			$validate = $this->validate(Config::get('university::validator.addUni'));
 		
 			if($validate->fail()) {
 				$errors = $validate->getErrors();

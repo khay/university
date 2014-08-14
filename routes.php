@@ -20,3 +20,10 @@ Route::group('@admin/university/course/', function() {
 	Route::get('{p:page}?', 'University\Admin\Course::index', 'courseAdmin');
 	Route::add('add', 'University\Admin\Course::add', 'courseAdd');
 });
+
+Route::group('@admin/university/category/', function() {
+	Route::get('{p:page}?', 'University\Admin\Category::index', 'courseCatAdmin');
+	Route::add('add', 'University\Admin\Category::add', 'courseCatAdd');
+	Route::add('edit/{string:id}?', 'University\Admin\Category::edit', 'courseCatEdit');
+	Route::add('delete/{string:id}', 'University\Admin\Category::delete', 'courseCatDelete');
+});

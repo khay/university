@@ -37,3 +37,15 @@
 .form-buttons a {
 	margin-left: 10px;
 }
+
+/* Category */
+.category-lists {
+	width: 70%;
+	float: left;
+	margin-right: 20px;
+}
+
+.category-add {
+	float: 25%;
+	float: left;
+}

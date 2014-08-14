@@ -26,8 +26,6 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
         $childs[] = array('title' => 'Categories', 'uri' => 'category');
 
         $menu->group($modUri, 'Uni Application', 'icon-college', 20, $childs);
-
-		//$menu->add('university', 'University', $modUri, null, 'icon-college', 20);
 	}
 
 	/**

@@ -5,7 +5,7 @@
 	<div class="form-side">
 		<div class="form-block">
 			<label for="name">{{ Form::label(t('university::course.label.title'), 'title') }}</label>
-			{{ Form::input('title', isset($course->name) ? $course->name : '', 'text') }}
+			{{ Form::input('title', isset($course->title) ? $course->title : '', 'text') }}
 		</div>
 		<div class="form-block">
 			<label for="name">{{ Form::label(t('university::course.label.summary'), 'summary') }}</label>

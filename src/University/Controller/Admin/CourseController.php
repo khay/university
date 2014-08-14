@@ -22,6 +22,7 @@ class CourseController extends \AdminController
 	 **/
 	public function before() 
 	{
+		$this->menu->activeParent('university');
         $this->template->style('university.css', 'university');
         $this->template->script('blog.js','blog');
 
@@ -63,6 +64,42 @@ class CourseController extends \AdminController
             ->setPartial('admin/course/form')
             ->set('universities', $universities)
             ->set('method', 'add');
+	}
+
+	/**
+	 * Edit a course details
+	 *
+	 * @param string $id
+	 * @return void
+	 **/
+	public function edit($id = null)
+	{
+		if (Input::isPost()) {
+			$validate = $this->validate(Config::get('university::validator.addCourse'));
+		
+			if($validate->fail()) {
+				$errors = $validate->getErrors();
+				Flash::error(t('university::course.message.error.default'));
+                $this->template->set('errors', $errors);
+			} else {
+				$this->saveValues(Input::get('method'));
+				Flash::success(t('university::course.message.success.add'));
+				return \Redirect::toAdmin('university');
+			}
+		}
+		
+		if (is_null($id))
+            return Redirect::to(adminUrl('university/course'));
+
+		$course = Course::find($id);
+		$universities = $this->universities();
+
+		$this->template->title(sprintf(t('university::course.title.edit'), $course->title))
+            ->breadcrumb(sprintf(t('university::course.title.edit'), $course->title))
+            ->setPartial('admin/university/form')
+            ->set('course', $course)
+            ->set('universities', $universities)
+            ->set('method', 'edit');
 	}
 
 	/**
