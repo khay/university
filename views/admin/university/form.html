@@ -54,7 +54,7 @@
 		{{ if ($method == 'add') }}
 			{{ Form::submit('submit', t('university::university.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
 		{{ else }}
-			{{ Form::hidden('id', $id) }}
+			{{ Form::hidden('id', $university->id) }}
 			{{ Form::submit('submit', t('university::university.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
 		{{ endif }}
 		<a href="{{ adminUrl("university") }}">{{ t('university::university.label.cancel') }}</a>

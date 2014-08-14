@@ -1,13 +1,20 @@
 <?php
 
 return array(
-	'addForm'	=> array (
+	'addUni'	=> array (
 		'name'		=> 'required',
 		'summary'	=> 'required',
 		'about'		=> 'required',
 		'city'		=> 'required',
 		'email' 	=> 'required|email',
-		'website'	=> 'required',
+		'website'	=> 'required'
+		),
+
+	'addCourse'	=> array (
+		'title'		=> 'required',
+		'summary'	=> 'required',
+		'detail'	=> 'required',
+		'fee'		=> 'required'
 		),
 
 	);

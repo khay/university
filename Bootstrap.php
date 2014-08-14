@@ -19,7 +19,15 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
 	 */
 	public function adminMenu(\Reborn\Util\Menu $menu, $modUri)
 	{
-		$menu->add('university', 'University', $modUri, null, 'icon-college', 20);
+		$childs = array();
+
+        $childs[] = array('title' => 'Universities', 'uri' => '');
+        $childs[] = array('title' => 'Courses', 'uri' => 'course');
+        $childs[] = array('title' => 'Categories', 'uri' => 'category');
+
+        $menu->group($modUri, 'Uni Application', 'icon-college', 20, $childs);
+
+		//$menu->add('university', 'University', $modUri, null, 'icon-college', 20);
 	}
 
 	/**
@@ -32,7 +40,7 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
 		return array(
             'add'    => array(
                 'url'   => 'university/add/',
-                'name'  => 'Add',
+                'name'  => 'Add University',
                 'info'  => 'Add New University',
                 'id'    => 'addUniversity',
             ),

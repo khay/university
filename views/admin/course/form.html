@@ -1,0 +1,60 @@
+<div class="uni-wrapper clearfix">
+
+	{{ Form::start(adminUrl("university/course/".$method), 'uniAddForm', false, array('class' => 'form')) }}
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.title'), 'title') }}</label>
+			{{ Form::input('title', isset($course->name) ? $course->name : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.summary'), 'summary') }}</label>
+			{{ Form::textarea('summary', isset($course->summary) ? $course->summary : '') }}
+		</div>
+		<div class="form-block">
+			<label for="about">{{ Form::label(t('university::course.label.detail'), 'detail') }}</label>
+			{{ Form::cksimple('detail', isset($course->about) ? $course->about : '') }}
+		</div>
+	</div>
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="country_list">{{ Form::label(t('university::course.label.available'), 'universityId') }}</label>
+			{{ Form::select('universityId', $universities, isset($course->universityId) ? $course->universityId : '') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.fee'), 'fee') }}</label>
+			{{ Form::input('fee', isset($course->fee) ? $course->fee : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.level'), 'level') }}</label>
+			{{ Form::select('level', Config::get('university::config.level'), isset($course->level) ? $course->level : '') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.duration'), 'duration') }}</label>
+			{{ Form::input('duration', isset($course->duration) ? $course->duration : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.intake'), 'intake') }}</label>
+			{{ Form::input('intake', isset($course->intake) ? $course->intake : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.achievement'), 'achievement') }}</label>
+			{{ Form::input('achievement', isset($course->achievement) ? $course->achievement : '', 'text') }}
+		</div>
+	</div>
+
+	<div class="form-buttons">
+		{{ Form::hidden('method', $method) }}		
+		{{ if ($method == 'add') }}
+			{{ Form::submit('submit', t('university::course.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+		{{ else }}
+			{{ Form::hidden('id', $university->id) }}
+			{{ Form::submit('submit', t('university::course.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+		{{ endif }}
+		<a href="{{ adminUrl("university") }}">{{ t('university::course.label.cancel') }}</a>
+	</div>	
+
+	{{ Form::end( ) }}
+
+</div>

@@ -68,7 +68,13 @@ class UniversityController extends \AdminController
 	 **/
 	public function view($id = null)
 	{
-		// TBC
+		$university = University::find($id);
+
+		$this->template->title(t('university::university.title.view'))
+            ->breadcrumb(t('university::university.title.view'))
+            ->setPartial('admin/university/view')
+            ->set('university', $university);
+
 	}
 
 	/**
@@ -79,7 +85,7 @@ class UniversityController extends \AdminController
 	public function add()
 	{
 		if (Input::isPost()) {
-			$validate = $this->validate(Config::get('university::validator.addForm'));
+			$validate = $this->validate(Config::get('university::validator.addUni'));
 		
 			if($validate->fail()) {
 				$errors = $validate->getErrors();
@@ -125,8 +131,8 @@ class UniversityController extends \AdminController
 
 		$university = University::find($id);
 
-		$this->template->title(t('university::university.title.edit'))
-            ->breadcrumb(t('university::university.title.edit'))
+		$this->template->title(sprintf(t('university::university.title.edit'), $university->name))
+            ->breadcrumb(sprintf(t('university::university.title.edit'), $university->name))
             ->setPartial('admin/university/form')
             ->set('university', $university)
             ->set('method', 'edit');
