@@ -23,7 +23,7 @@ class CourseController extends \AdminController
 	{
 		$this->menu->activeParent('university');
         $this->template->style('university.css', 'university');
-        $this->template->script('blog.js','blog');
+        $this->template->script('app.js', 'university');
 
         if ($this->request->isAjax())
             $this->template->partialOnly();
@@ -198,6 +198,38 @@ class CourseController extends \AdminController
 	}
 
 	/**
+     * Ajax course search
+     *
+     * @return void
+     **/
+    public function search()
+    {
+        $term = Input::get('term');
+
+        if ($term) {
+            $courses = Course::like('title', $term)
+            			->get();
+            			
+            $result = $this->assignValues($courses);
+        } else {
+            $options = array(
+                'total_items'       => Course::count(),
+                'items_per_page'    => 25,
+            );
+
+            $pagination = Pagination::create($options);
+            $result = $this->getCourses(Pagination::offset(), Pagination::limit());
+
+            $this->template->set('pagination', $pagination);
+
+        }
+
+        $this->template->partialOnly()
+             ->set('courses', $result)
+             ->setPartial('admin/course/table');
+    }
+
+	/**
 	 * Check form validation
 	 *
 	 * @param array $rules
@@ -223,7 +255,20 @@ class CourseController extends \AdminController
                             ->sort('name', 'asc')
                             ->get();
 
-        foreach ($courses as $course) {
+        $courses = $this->assignValues($courses);
+
+        return $courses;
+	}
+
+	/**
+	 * Assign university name and category name to its course
+	 *
+	 * @param object $courses
+	 * @return object
+	 **/
+	protected function assignValues($courses)
+	{
+		foreach ($courses as $course) {
         	$course->universityName = $this->getUniversity($course->universityId);
         	$course->categoryName = $this->getCategory($course->categoryId);
         }

@@ -23,7 +23,7 @@ class UniversityController extends \AdminController
 	{
 		$this->menu->activeParent('university');
         $this->template->style('university.css', 'university');
-        $this->template->script('blog.js','blog');
+        $this->template->script('app.js', 'university');
 
         if ($this->request->isAjax())
             $this->template->partialOnly();
@@ -172,7 +172,7 @@ class UniversityController extends \AdminController
         $term = Input::get('term');
 
         if ($term) {
-            $result = University::where('name', '=', '%'.$term.'%')
+            $result = University::like('name', $term)
             			->get();
         } else {
             $options = array(

@@ -23,6 +23,7 @@ Route::group('@admin/university/course/', function() {
 	Route::add('add', 'University\Admin\Course::add', 'courseAdd');
 	Route::add('edit/{string:id}?', 'University\Admin\Course::edit', 'courseEdit');
 	Route::add('delete/{string:id}', 'University\Admin\Course::delete', 'courseDelete');
+	Route::post('search', 'University\Admin\Course::search', 'courseSearch');
 });
 
 // Course Category
