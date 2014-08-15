@@ -35,14 +35,38 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
 	 */
 	public function moduleToolbar()
 	{
-		return array(
+		/*return array(
             'add'    => array(
                 'url'   => 'university/add/',
                 'name'  => 'Add University',
                 'info'  => 'Add New University',
                 'id'    => 'addUniversity',
             ),
-        );
+        );*/
+
+        $uri = \Uri::segment(3);
+
+        if ( $uri == 'course') {
+            $mod_toolbar = array(
+                'addCourse'	=> array(
+                    'url'	=> 'university/course/add',
+                    'name'	=> t('university::course.label.add'),
+                    'info'	=> t('university::course.label.add'),
+                    'class'	=> 'add'
+                )
+            );
+        } else {
+            $mod_toolbar = array(
+                'add'	=> array(
+                    'url'	=> 'university/add',
+                    'name'	=> t('university::university.label.add'),
+                    'info'	=> t('university::university.label.add'),
+                    'class'	=> 'add'
+                ),
+            );
+        }
+
+        return $mod_toolbar;
 	}
 
 	/**

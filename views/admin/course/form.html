@@ -8,6 +8,10 @@
 			{{ Form::input('title', isset($course->title) ? $course->title : '', 'text') }}
 		</div>
 		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::course.label.category'), 'categoryId') }}</label>
+			{{ Form::select('categoryId', $categories, isset($course->category) ? $course->category : '') }}
+		</div>
+		<div class="form-block">
 			<label for="name">{{ Form::label(t('university::course.label.summary'), 'summary') }}</label>
 			{{ Form::textarea('summary', isset($course->summary) ? $course->summary : '') }}
 		</div>

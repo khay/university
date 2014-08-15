@@ -85,9 +85,20 @@ class CategoryController extends \AdminController
 	 * @param string $id
 	 * @return void
 	 **/
-	public function edit($id)
+	public function edit($id = null)
 	{
 		if (Input::isPost()) {
+			$validate = $this->validate(Config::get('university::validator.addCategory'));
+		
+			if($validate->fail()) {
+				$errors = $validate->getErrors();
+				Flash::error(t('university::category.message.error.default'));
+                $this->template->set('errors', $errors);                
+			} else {
+				$this->saveValues(Input::get('method'));
+				Flash::success(t('university::category.message.success.add'));
+				return \Redirect::toAdmin('university/category');
+			}
 		}
 
 		if (is_null($id))

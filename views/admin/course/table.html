@@ -1,0 +1,40 @@
+{{ if(count($courses) > 0) }}
+
+	<table class="stripe">
+		<thead>
+			<tr>	
+				<th width="25%">{{ t('university::course.label.title') }}</th>				
+				<th>{{ t('university::course.label.available') }}</th>
+				<th width="22%" style="min-width:125px;">{{ t('label.actions') }}</th>
+			</tr>
+		</thead>
+		<tbody>			
+			{{ loop($courses as $course) }}
+			<tr>	
+				<td>	
+					{{ $course->title }}					
+				</td>
+
+				<td>
+					<a href="{{ adminUrl("university/view/".$course->universityId) }}">{{ $course->universityName }}</a>
+				</td>
+				<td>
+					<a href="{{ adminUrl("university/course/view/".$course->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::course.label.view') }}"><i class="icon-view"></i></a>
+					<a href="{{ adminUrl("university/subject/add/".$course->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::course.label.addSubj') }}"><i class="icon-plus"></i></a>
+					<a href="{{ adminUrl("university/course/edit/".$course->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::course.label.edit') }}"><i class="icon-edit"></i></a>
+					<a href="{{ adminUrl("university/course/delete/".$course->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::course.label.delete') }}"><i class="icon-remove"></i></a>
+				</td>
+			</tr>
+			{{ endloop }}
+		</tbody>
+	</table>
+	
+	{{ if(isset($pagination)) }}
+		{{ $pagination }}
+	{{ endif }}
+
+{{ else }}
+	<div id="no-index-data">
+		{{ t('university::course.label.none') }}
+	</div>
+{{ endif }}

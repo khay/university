@@ -14,6 +14,7 @@ return array(
 		'cancel'		=> 'Cancel',
 		'edit'			=> 'Edit Category',
 		'delete'		=> 'Delete Category',
+		'default'		=> 'Default',
 		),
 	'message'	=> array(
 		'success'		=> array(

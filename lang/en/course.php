@@ -13,8 +13,8 @@ return array(
 		'fee'			=> 'Fee (in USD)',
 		'level'			=> 'Level',
 		'achievement'	=> 'Achievement',
-		'type'			=> 'Type',
-		'available'		=> 'Available At',
+		'category'		=> 'Category',
+		'available'		=> 'Available University',
 		'intake'		=> 'Intake',
 		'duration'		=> 'Duration',
 		'requirements'	=> 'Requirements',
@@ -23,6 +23,12 @@ return array(
 		'add'			=> 'Add Course',
 		'update'		=> 'Update Course',
 		'cancel'		=> 'Cancel',
+		'none'			=> 'No Course is added yet!',
+		'view'			=> 'View Course',
+		'edit'			=> 'Edit Course',
+		'delete'		=> 'Delete Course',
+		'addSubj'		=> 'Add Subjects',
+		'search'		=> 'Search Courses',
 		),
 	'message'	=> array(
 		'success'		=> array(

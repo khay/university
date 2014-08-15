@@ -3,7 +3,6 @@
 namespace University\Controller\Admin;
 
 use University\Model\Course;
-use University\Model\Category;
 use \Reborn\Form\Validation as Validation;
 use Event, Flash, Redirect, Input, Pagination, Config;
 
@@ -32,7 +31,22 @@ class CourseController extends \AdminController
 
 	public function index()
 	{
-		dump('This works', true);
+		$options = array(
+            'total_items'       => Course::count(),
+            'items_per_page'    => 25,
+        );
+
+        $pagination = Pagination::create($options);
+
+        $courses = $this->getCourses(Pagination::offset(), Pagination::limit());
+
+        $this->template->title(t('university::university.title.index'))                        
+                        ->set('pagination', $pagination)
+                        ->set('courses', $courses)
+                        ->setPartial('admin/course/index');
+
+        $dataTable = $this->template->partialRender('admin/course/table');
+        $this->template->set('dataTable', $dataTable);
 	}
 
 	/**
@@ -58,11 +72,13 @@ class CourseController extends \AdminController
 		}
 
 		$universities = $this->universities();
+		$categories = $this->categories();
 
 		$this->template->title(t('university::course.title.add'))
             ->breadcrumb(t('university::course.title.add'))
             ->setPartial('admin/course/form')
             ->set('universities', $universities)
+            ->set('categories', $categories)
             ->set('method', 'add');
 	}
 
@@ -121,6 +137,33 @@ class CourseController extends \AdminController
 	}
 
 	/**
+	 * Save course data
+	 *
+	 * @param string $method
+	 * @return void
+	 **/
+	protected function saveValues($method)
+	{		
+		if ($method == 'add')
+			$course = new Course;
+		else
+			$course = Course::find(Input::get('id'));
+
+		$course->title = Input::get('title');
+		$course->categoryId = Input::get('categoryId');
+		$course->summary = Input::get('summary');
+		$course->detail = Input::get('detail');
+		$course->universityId = Input::get('universityId');
+		$course->fee = Input::get('fee');
+		$course->level = Input::get('level');
+		$course->duration = Input::get('duration');
+		$course->intake = Input::get('intake');
+		$course->achievement = Input::get('achievement');
+
+		$course->save();
+	}
+
+	/**
 	 * Get all universities and give select options
 	 *
 	 * @return array
@@ -134,5 +177,67 @@ class CourseController extends \AdminController
 		}
 
 		return $uni;
+	}
+
+	/**
+	 * Get all course categories and give select options
+	 *
+	 * @return array
+	 **/
+	public function categories()
+	{
+		$categories = \University\Model\Category::all();
+		
+		foreach ($categories as $category) {
+			$cat[$category->id] = $category->name;
+		}
+
+		return $cat;
+	}
+
+	/**
+	 * Check form validation
+	 *
+	 * @param array $rules
+	 * @return array
+	 **/
+	protected function validate($rules)
+	{	
+		return new Validation(Input::get('*'), $rules);
+	}
+
+	/**
+	 * Set university name to associated course
+	 *
+	 * @param int $offset
+	 * @param int $limit
+	 * @return void
+	 * @author 
+	 **/
+	protected function getCourses($offset, $limit)
+	{
+		$courses = Course::skip($offset)              
+                            ->limit($limit)       
+                            ->sort('name', 'asc')
+                            ->get();
+
+        foreach ($courses as $course) {
+        	$course->universityName = $this->getUniversity($course->universityId);
+        }
+
+        return $courses;
+	}
+
+	/**
+	 * Get associated university for a course
+	 *
+	 * @param string $id
+	 * @return string
+	 **/
+	protected function getUniversity($id)
+	{
+		$university = \University\Model\University::find($id);
+
+		return $university->name;
 	}
 }

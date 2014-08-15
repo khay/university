@@ -42,10 +42,6 @@
 	margin-bottom: 20px;
 }
 
-.category-form label {
-	margin-bottom: 5px;
-}
-
 /* Category */
 .category-lists {
 	width: 70%;
@@ -53,7 +49,16 @@
 	margin-right: 20px;
 }
 
+.category-lists small.label {
+	margin: 0 5px;
+}
+
 .category-add {
 	float: 25%;
 	float: left;
+}
+
+
+.category-form label {
+	margin-bottom: 5px;
 }
