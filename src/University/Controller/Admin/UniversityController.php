@@ -69,12 +69,17 @@ class UniversityController extends \AdminController
 	 **/
 	public function view($id = null)
 	{
+		if (is_null($id))
+            return Redirect::to(adminUrl('university'));
+
 		$university = University::find($id);
+		$courses = $this->getCourses($university->id);
 
 		$this->template->title(t('university::university.title.view'))
             ->breadcrumb(t('university::university.title.view'))
             ->setPartial('admin/university/view')
-            ->set('university', $university);
+            ->set('university', $university)
+            ->set('courses', $courses);
 
 	}
 
@@ -158,6 +163,40 @@ class UniversityController extends \AdminController
 	}
 
 	/**
+     * Ajax university search
+     *
+     * @return void
+     **/
+    public function search()
+    {
+        $term = Input::get('term');
+
+        if ($term) {
+            $result = University::where('name', '=', '%'.$term.'%')
+            			->get();
+        } else {
+            $options = array(
+                'total_items'       => University::count(),
+                'items_per_page'    => 25,
+            );
+
+            $pagination = Pagination::create($options);
+
+            $result = University::sort('name', 'asc')
+                            ->skip(Pagination::offset())
+                            ->limit(Pagination::limit())
+                            ->get();
+
+            $this->template->set('pagination', $pagination);
+
+        }
+
+        $this->template->partialOnly()
+             ->set('universities', $result)
+             ->setPartial('admin/university/table');
+    }
+
+    /**
 	 * Check form validation
 	 *
 	 * @param array $rules
@@ -196,36 +235,32 @@ class UniversityController extends \AdminController
 	}
 
 	/**
-     * Ajax university search
-     *
-     * @return void
-     **/
-    public function search()
-    {
-        $term = Input::get('term');
+	 * Get available courses from a university
+	 *
+	 * @param string $id
+	 * @return object
+	 **/
+	protected function getCourses($id)
+	{
+		$courses = \University\Model\Course::where('universityId', '=', $id)->get();
 
-        if ($term) {
-            $result = University::where('name', '=', '%'.$term.'%')
-            			->get();
-        } else {
-            $options = array(
-                'total_items'       => University::count(),
-                'items_per_page'    => 25,
-            );
-
-            $pagination = Pagination::create($options);
-
-            $result = University::sort('name', 'asc')
-                            ->skip(Pagination::offset())
-                            ->limit(Pagination::limit())
-                            ->get();
-
-            $this->template->set('pagination', $pagination);
-
+		foreach ($courses as $course) {        	
+        	$course->categoryName = $this->getCategory($course->categoryId);
         }
 
-        $this->template->partialOnly()
-             ->set('universities', $result)
-             ->setPartial('admin/university/table');
-    }
+		return $courses;
+	}
+
+	/**
+	 * Get associated category for a course
+	 *
+	 * @param string $id
+	 * @return string
+	 **/
+	protected function getCategory($id)
+	{
+		$category = \University\Model\Category::find($id);
+
+		return $category->name;
+	}
 }

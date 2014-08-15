@@ -100,7 +100,7 @@ class CourseController extends \AdminController
 			} else {
 				$this->saveValues(Input::get('method'));
 				Flash::success(t('university::course.message.success.add'));
-				return \Redirect::toAdmin('university');
+				return \Redirect::toAdmin('university/course');
 			}
 		}
 		
@@ -109,12 +109,14 @@ class CourseController extends \AdminController
 
 		$course = Course::find($id);
 		$universities = $this->universities();
-
+		$categories = $this->categories();
+ 
 		$this->template->title(sprintf(t('university::course.title.edit'), $course->title))
             ->breadcrumb(sprintf(t('university::course.title.edit'), $course->title))
-            ->setPartial('admin/university/form')
+            ->setPartial('admin/course/form')
             ->set('course', $course)
             ->set('universities', $universities)
+            ->set('categories', $categories)
             ->set('method', 'edit');
 	}
 
@@ -223,6 +225,7 @@ class CourseController extends \AdminController
 
         foreach ($courses as $course) {
         	$course->universityName = $this->getUniversity($course->universityId);
+        	$course->categoryName = $this->getCategory($course->categoryId);
         }
 
         return $courses;
@@ -239,5 +242,18 @@ class CourseController extends \AdminController
 		$university = \University\Model\University::find($id);
 
 		return $university->name;
+	}
+
+	/**
+	 * Get associated category for a course
+	 *
+	 * @param string $id
+	 * @return string
+	 **/
+	protected function getCategory($id)
+	{
+		$category = \University\Model\Category::find($id);
+
+		return $category->name;
 	}
 }

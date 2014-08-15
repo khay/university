@@ -16,10 +16,16 @@ Route::group('@admin/university/', function() {
     Route::post('search', 'University\Admin\University::search', 'uniSearch');
 });
 
+// Course
+
 Route::group('@admin/university/course/', function() {
 	Route::get('{p:page}?', 'University\Admin\Course::index', 'courseAdmin');
 	Route::add('add', 'University\Admin\Course::add', 'courseAdd');
+	Route::add('edit/{string:id}?', 'University\Admin\Course::edit', 'courseEdit');
+	Route::add('delete/{string:id}', 'University\Admin\Course::delete', 'courseDelete');
 });
+
+// Course Category
 
 Route::group('@admin/university/category/', function() {
 	Route::get('{p:page}?', 'University\Admin\Category::index', 'courseCatAdmin');

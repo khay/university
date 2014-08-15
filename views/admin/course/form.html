@@ -1,6 +1,5 @@
-<div class="uni-wrapper clearfix">
-
-	{{ Form::start(adminUrl("university/course/".$method), 'uniAddForm', false, array('class' => 'form')) }}
+{{ Form::start(adminUrl("university/course/".$method), 'uniAddForm', false, array('class' => 'form')) }}
+<div class="uni-wrapper clearfix">	
 
 	<div class="form-side">
 		<div class="form-block">
@@ -9,7 +8,7 @@
 		</div>
 		<div class="form-block">
 			<label for="name">{{ Form::label(t('university::course.label.category'), 'categoryId') }}</label>
-			{{ Form::select('categoryId', $categories, isset($course->category) ? $course->category : '') }}
+			{{ Form::select('categoryId', $categories, isset($course->categoryId) ? $course->categoryId : '') }}
 		</div>
 		<div class="form-block">
 			<label for="name">{{ Form::label(t('university::course.label.summary'), 'summary') }}</label>
@@ -17,7 +16,7 @@
 		</div>
 		<div class="form-block">
 			<label for="about">{{ Form::label(t('university::course.label.detail'), 'detail') }}</label>
-			{{ Form::cksimple('detail', isset($course->about) ? $course->about : '') }}
+			{{ Form::cksimple('detail', isset($course->detail) ? $course->detail : '') }}
 		</div>
 	</div>
 
@@ -48,17 +47,17 @@
 		</div>
 	</div>
 
-	<div class="form-buttons">
-		{{ Form::hidden('method', $method) }}		
-		{{ if ($method == 'add') }}
-			{{ Form::submit('submit', t('university::course.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
-		{{ else }}
-			{{ Form::hidden('id', $university->id) }}
-			{{ Form::submit('submit', t('university::course.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
-		{{ endif }}
-		<a href="{{ adminUrl("university") }}">{{ t('university::course.label.cancel') }}</a>
-	</div>	
-
-	{{ Form::end( ) }}
-
 </div>
+
+<div class="form-buttons">
+	{{ Form::hidden('method', $method) }}		
+	{{ if ($method == 'add') }}
+		{{ Form::submit('submit', t('university::course.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+	{{ else }}
+		{{ Form::hidden('id', $course->id) }}
+		{{ Form::submit('submit', t('university::course.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+	{{ endif }}
+	<a href="{{ adminUrl("university/course") }}">{{ t('university::course.label.cancel') }}</a>
+</div>	
+
+{{ Form::end( ) }}

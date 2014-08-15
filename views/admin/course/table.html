@@ -3,7 +3,8 @@
 	<table class="stripe">
 		<thead>
 			<tr>	
-				<th width="25%">{{ t('university::course.label.title') }}</th>				
+				<th width="25%">{{ t('university::course.label.title') }}</th>
+				<th width="15%">{{ t('university::course.label.category') }}</th>			
 				<th>{{ t('university::course.label.available') }}</th>
 				<th width="22%" style="min-width:125px;">{{ t('label.actions') }}</th>
 			</tr>
@@ -14,7 +15,9 @@
 				<td>	
 					{{ $course->title }}					
 				</td>
-
+				<td>
+					{{ $course->categoryName }}
+				</td>
 				<td>
 					<a href="{{ adminUrl("university/view/".$course->universityId) }}">{{ $course->universityName }}</a>
 				</td>
