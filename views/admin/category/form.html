@@ -1,0 +1,26 @@
+{{ if(!isset($method)) }}
+	{= $method = 'add' =}
+{{ endif }}
+{{ Form::start(adminUrl("university/category/".$method), 'catAddForm', false, array('class' => 'form category-form')) }}
+<div class="form-block">
+	<label for="name">{{ Form::label(t('university::category.label.name'), 'name') }}</label>
+	{{ Form::input('name', isset($category->name) ? $category->name : '', 'text', array('id' => 'categoryName')) }}
+</div>
+<div class="form-block">
+	<label for="name">{{ Form::label(t('university::category.label.slug'), 'slug') }}</label>
+	{{ Form::input('slug', isset($category->slug) ? $category->slug : '', 'text', array('id' => 'categorySlug')) }}
+</div>
+<div class="form-block">
+	<label for="name">{{ Form::label(t('university::category.label.description'), 'description') }}</label>
+	{{ Form::textarea('description', isset($category->description) ? $category->description : '') }}
+</div>
+<div class="form-buttons">
+{{ Form::hidden('method', $method) }}		
+{{ if ($method == 'add') }}
+	{{ Form::submit('submit', t('university::category.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+{{ else }}
+	{{ Form::hidden('id', $category->id) }}
+	{{ Form::submit('submit', t('university::category.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+{{ endif }}
+</div>	
+{{ Form::end() }}

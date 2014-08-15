@@ -1,5 +1,6 @@
 <div class="course-category">
 	<div class="category-lists">
+		<h3 class="uni-title">Course Categories</h3>
 		{{ if(count($categories) > 0) }}
 		<table class="stripe">
 			<thead>
@@ -13,15 +14,20 @@
 				{{ loop($categories as $category) }}
 				<tr>	
 					<td>	
-						{{ $category->name }}					
+						{{ $category->name }}
+						{{ if(isset($category->default)) }}		
+						<small class="label label-info">Default</small>
+						{{ endif }}
 					</td>
 
 					<td>
 						{{ $category->description }}
 					</td>
 					<td>						
-						<a href="{{ adminUrl("university/category/edit/".$category->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::category.label.edit') }}"><i class="icon-edit"></i></a>
-						<a href="{{ adminUrl("university/category/delete/".$category->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::category.label.delete') }}"><i class="icon-remove"></i></a>
+						<a href="{{ adminUrl("university/category/edit/".$category->id) }}" class="ico-btn tipsy-tip c-edit-box cboxElement" original-title="{{ t('university::category.label.edit') }}"><i class="icon-edit"></i></a>
+						{{ if(!isset($category->default)) }}
+						<a href="{{ adminUrl("university/category/delete/".$category->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::category.label.delete') }}"><i class="icon-remove"></i></a>		
+						{{ endif }}
 					</td>
 				</tr>
 				{{ endloop }}
@@ -33,28 +39,6 @@
 	</div>
 	<div class="category-add">
 		<h3>Add New Category</h3>
-		{{ Form::start(adminUrl("university/category/".$method), 'catAddForm', false, array('class' => 'form')) }}
-		<div class="form-block">
-			<label for="name">{{ Form::label(t('university::category.label.name'), 'name') }}</label>
-			{{ Form::input('name', isset($category->name) ? $category->name : '', 'text', array('id' => 'categoryName')) }}
-		</div>
-		<div class="form-block">
-			<label for="name">{{ Form::label(t('university::category.label.slug'), 'slug') }}</label>
-			{{ Form::input('slug', isset($category->fee) ? $category->fee : '', 'text', array('id' => 'categorySlug')) }}
-		</div>
-		<div class="form-block">
-			<label for="name">{{ Form::label(t('university::category.label.description'), 'description') }}</label>
-			{{ Form::textarea('description', isset($category->description) ? $category->description : '') }}
-		</div>
-		<div class="form-buttons">
-		{{ Form::hidden('method', $method) }}		
-		{{ if ($method == 'add') }}
-			{{ Form::submit('submit', t('university::category.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
-		{{ else }}
-			{{ Form::hidden('id', $university->id) }}
-			{{ Form::submit('submit', t('university::category.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
-		{{ endif }}
-		</div>	
-		{{ Form::end() }}
+		{{ $categoryForm }}
 	</div>
 </div>

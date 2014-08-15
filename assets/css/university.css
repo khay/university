@@ -38,6 +38,14 @@
 	margin-left: 10px;
 }
 
+.uni-title {
+	margin-bottom: 20px;
+}
+
+.category-form label {
+	margin-bottom: 5px;
+}
+
 /* Category */
 .category-lists {
 	width: 70%;

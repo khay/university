@@ -38,10 +38,12 @@ class CategoryController extends \AdminController
 	{
 
         $categories = Category::sort('name', 'asc')->get();
+        $categoryForm = $this->template->partialRender('admin/category/form');
 
         $this->template->title(t('university::category.title.index'))
                         ->set('categories', $categories)
-                        ->set('method', 'add')
+                        ->set('categoryForm', $categoryForm)
+                        ->set('method', 'add')                        
                         ->setPartial('admin/category/index');
 	}
 
@@ -52,6 +54,8 @@ class CategoryController extends \AdminController
 	 **/
 	public function add()
 	{
+		$ajax = $this->request->isAjax();
+
 		if (Input::isPost()) {
 			$validate = $this->validate(Config::get('university::validator.addCategory'));
 		
@@ -62,14 +66,46 @@ class CategoryController extends \AdminController
 			} else {
 				$this->saveValues(Input::get('method'));
 				Flash::success(t('university::category.message.success.add'));
+				return \Redirect::toAdmin('university/category');
 			}
-		}
+		}		
 
-		return \Redirect::toAdmin('university/category');
+		if ($ajax) {
+            $this->template->partialOnly();
+        }
+
+        $this->template->setPartial('admin/category/form')
+                       ->set('method','create')
+                       ->set('ajax', $ajax);
 	}
 
 	/**
-	 * Delete course category
+	 * Edit a course category
+	 *
+	 * @param string $id
+	 * @return void
+	 **/
+	public function edit($id)
+	{
+		if (Input::isPost()) {
+		}
+
+		if (is_null($id))
+            return $this->notFound();
+
+		$ajax = $this->request->isAjax();
+		$category = Category::find($id);
+
+		$this->template->setPartial('admin/category/form')
+                       ->set('method','edit')
+                       ->set('category', $category)
+                       ->set('ajax', $ajax);
+	}
+
+	/**
+	 * Delete course categories except default category
+	 * Will assign courses from a category to default
+	 * If a category is deleted
 	 *
 	 * @param string $id
 	 * @return void
@@ -80,7 +116,11 @@ class CategoryController extends \AdminController
             return $this->notFound();
 
         $category = Category::find($id);
-        $category->delete();
+
+        if (isset($category->default))
+        	\Redirect::toAdmin('university/category');
+        else
+			$category->delete();
 
         Flash::success(t('university::category.message.success.delete'));
 		return \Redirect::toAdmin('university/category');
