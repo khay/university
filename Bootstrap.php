@@ -24,6 +24,7 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
         $childs[] = array('title' => 'Universities', 'uri' => '');
         $childs[] = array('title' => 'Courses', 'uri' => 'course');
         $childs[] = array('title' => 'Categories', 'uri' => 'category');
+        $childs[] = array('title' => 'Student Sheet', 'uri' => 'studentsheet');
 
         $menu->group($modUri, 'Uni Application', 'icon-college', 20, $childs);
 	}
@@ -35,15 +36,6 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
 	 */
 	public function moduleToolbar()
 	{
-		/*return array(
-            'add'    => array(
-                'url'   => 'university/add/',
-                'name'  => 'Add University',
-                'info'  => 'Add New University',
-                'id'    => 'addUniversity',
-            ),
-        );*/
-
         $uri = \Uri::segment(3);
 
         if ( $uri == 'course') {
@@ -55,7 +47,16 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
                     'class'	=> 'add'
                 )
             );
-        } else {
+        } elseif ( $uri == 'studentsheet') {
+            $mod_toolbar = array(
+                'addCourse'	=> array(
+                    'url'	=> 'university/studentsheet/add',
+                    'name'	=> t('university::studentsheet.title.add'),
+                    'info'	=> t('university::studentsheet.title.add'),
+                    'class'	=> 'add'
+                )
+            );
+        }else {
             $mod_toolbar = array(
                 'add'	=> array(
                     'url'	=> 'university/add',

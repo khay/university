@@ -1,0 +1,42 @@
+{{ if(count($students) > 0) }}
+
+	<table class="stripe" id="studentsheet">
+		<thead>
+			<tr>	
+				<th>{{ t('university::studentsheet.label.name') }}</th>
+				<th width="10%">{{ t('university::studentsheet.label.officer') }}</th>
+				<th width="10%">{{ t('university::studentsheet.label.status') }}</th>
+				<th width="10%">{{ t('university::studentsheet.label.studywithin') }}</th>
+				<th width="10%">{{ t('university::studentsheet.label.sopta') }}</th>
+				<th width="10%">{{ t('university::studentsheet.label.soptb') }}</th>
+				<th width="12%">{{ t('university::studentsheet.label.copta') }}</th>
+				<th width="12%">{{ t('university::studentsheet.label.coptb') }}</th>
+				<th width="10%" style="min-width:125px;">{{ t('label.actions') }}</th>
+			</tr>
+		</thead>
+		<tbody>			
+			{{ loop($students as $student) }}
+			<tr>	
+				<td>{{ $student->name }}</td>
+				<td>{{ $student->officer }}</td>
+				<td>{{ $student->status }}</td>
+				<td>{{ $student->studywithin }}</td>
+				<td>{{ $student->sopta }}</td>
+				<td>{{ $student->soptb }}</td>
+				<td>{{ $student->copta }}</td>
+				<td>{{ $student->coptb }}</td>
+				<td>
+					<a href="{{ adminUrl("university/studentsheet/view/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::university.label.view') }}"><i class="icon-view"></i></a>
+					<a href="{{ adminUrl("university/studentsheet/edit/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::university.label.edit') }}"><i class="icon-edit"></i></a>
+					<a href="{{ adminUrl("university/studentsheet/delete/".$student->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::university.label.delete') }}"><i class="icon-remove"></i></a>
+				</td>
+			</tr>
+			{{ endloop }}
+		</tbody>
+	</table>
+
+{{ else }}
+	<div id="no-index-data">
+		{{ t('university::studentsheet.label.none') }}
+	</div>
+{{ endif }}

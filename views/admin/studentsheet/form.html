@@ -1,0 +1,69 @@
+<h3>{{ t('university::studentsheet.title.add') }}</h3>
+
+{{ Form::start(adminUrl("university/studentsheet/".$method), 'studentAddForm', false, array('class' => 'form')) }}
+
+<div class="uni-wrapper clearfix">
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.name'), 'name') }}</label>
+			{{ Form::input('name', isset($student->name) ? $student->name : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.phone'), 'phone') }}</label>
+			{{ Form::tel('phone', isset($student->phone) ? $student->phone : '') }}
+		</div>
+		<div class="form-block">
+			<label for="about">{{ Form::label(t('university::studentsheet.label.email'), 'email') }}</label>
+			{{ Form::email('email', isset($student->email) ? $student->email : '') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.notes'), 'notes') }}</label>
+			{{ Form::textarea('notes', isset($studentsheet->notes) ? $studentsheet->notes : '') }}
+		</div>		
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.officer'), 'officer') }}</label>
+			{{ Form::input('officer', isset($student->officer) ? $student->officer : '', 'text') }}
+		</div>
+	</div>
+
+	<div class="form-side">
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.copta'), 'copta') }}</label>
+			{{ Form::input('copta', isset($student->copta) ? $student->copta : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.coptb'), 'coptb') }}</label>
+			{{ Form::input('coptb', isset($student->coptb) ? $student->coptb : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.sopta'), 'sopta') }}</label>
+			{{ Form::input('sopta', isset($student->sopta) ? $student->sopta : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.soptb'), 'soptb') }}</label>
+			{{ Form::input('soptb', isset($student->soptb) ? $student->soptb : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.studywithin'), 'studywithin') }}</label>
+			{{ Form::input('studywithin', isset($student->studywithin) ? $student->studywithin : '', 'text') }}
+		</div>
+		<div class="form-block">
+			<label for="name">{{ Form::label(t('university::studentsheet.label.status'), 'status') }}</label>
+			{{ Form::input('status', isset($student->status) ? $student->status : '', 'text') }}
+		</div>
+	</div>
+</div>
+
+<div class="form-buttons">
+	{{ Form::hidden('method', $method) }}		
+	{{ if ($method == 'add') }}
+		{{ Form::submit('submit', t('university::studentsheet.label.add'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+	{{ else }}
+		{{ Form::hidden('id', $student->id) }}
+		{{ Form::submit('submit', t('university::studentsheett.label.update'), array('id' => 'add', 'class' => 'btn btn-green')) }}
+	{{ endif }}
+	<a href="{{ adminUrl("university/studentsheet") }}">{{ t('university::university.label.cancel') }}</a>
+</div>	
+
+{{ Form::end( ) }}

@@ -34,3 +34,12 @@ Route::group('@admin/university/category/', function() {
 	Route::add('edit/{string:id}?', 'University\Admin\Category::edit', 'courseCatEdit');
 	Route::add('delete/{string:id}', 'University\Admin\Category::delete', 'courseCatDelete');
 });
+
+// Studentsheet
+
+Route::group('@admin/university/studentsheet', function() {
+	Route::get('', 'University\Admin\Studentsheet::index', 'studentsheetAdmin');
+	Route::add('add', 'University\Admin\Studentsheet::add', 'studentsheetAdd');
+	Route::add('edit/{string:id}?', 'University\Admin\Studentsheet::edit', 'studentsheetEdit');
+	Route::add('delete/{string:id}', 'University\Admin\Studentsheet::delete', 'studentsheetDelete');
+});

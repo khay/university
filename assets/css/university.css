@@ -11,7 +11,8 @@
 	width: 90%;
 }
 
-.form-side label {
+.form-side label, 
+.form-fields label {
 	width: 100%;
 	float: none;
 	display: block;

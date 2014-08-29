@@ -22,5 +22,8 @@ return array(
 		'slug'			=> 'required',
 		'description'	=> 'required'
 		),
+	'addStudentsheet'	=> array(
+		'name'			=> 'required',
+		),
 
 	);
