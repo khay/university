@@ -53,6 +53,7 @@ class StudentsheetController extends \AdminController
                         ->set('pagination', $pagination)
                         ->set('students', $students)
                         ->style('jquery.dataTables.min.css', 'university')
+                        ->style('jquery.dataTables_themeroller.css', 'university')
         				->script('jquery.dataTables.min.js', 'university')
                         ->setPartial('admin/studentsheet/index');
 

@@ -21,7 +21,10 @@ return array(
 		'search'		=> 'Search Students',
 		'none'			=> 'No Student is added yet!',
 		'add'			=> 'Add New Student',
-		'update'		=> 'Edit Student',
+		'update'		=> 'Update Student',
+		'view'			=> 'View Student',
+		'edit'			=> 'Edit Student',
+		'delete'		=> 'Delete Student',
 		),
 	'message'	=> array(
 		'success'		=> array(

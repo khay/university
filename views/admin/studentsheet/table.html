@@ -26,9 +26,9 @@
 				<td>{{ $student->copta }}</td>
 				<td>{{ $student->coptb }}</td>
 				<td>
-					<a href="{{ adminUrl("university/studentsheet/view/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::university.label.view') }}"><i class="icon-view"></i></a>
-					<a href="{{ adminUrl("university/studentsheet/edit/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::university.label.edit') }}"><i class="icon-edit"></i></a>
-					<a href="{{ adminUrl("university/studentsheet/delete/".$student->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::university.label.delete') }}"><i class="icon-remove"></i></a>
+					<a href="{{ adminUrl("university/studentsheet/view/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::studentsheet.label.view') }}"><i class="icon-view"></i></a>
+					<a href="{{ adminUrl("university/studentsheet/edit/".$student->id) }}" class="ico-btn tipsy-tip" original-title="{{ t('university::studentsheet.label.edit') }}"><i class="icon-edit"></i></a>
+					<a href="{{ adminUrl("university/studentsheet/delete/".$student->id) }}" class="ico-btn tipsy-tip confirm_delete" original-title="{{ t('university::studentsheet.label.delete') }}"><i class="icon-remove"></i></a>
 				</td>
 			</tr>
 			{{ endloop }}
