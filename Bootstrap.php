@@ -27,6 +27,11 @@ class Bootstrap extends \Reborn\Module\AbstractBootstrap
         $childs[] = array('title' => 'Student Sheet', 'uri' => 'studentsheet');
 
         $menu->group($modUri, 'Uni Application', 'icon-college', 20, $childs);
+
+        // Create menu for Students and Agents
+		$menu->add('accounts', 'Accounts', '#', null, 'icon-group', 22);
+		$menu->add('student', 'Students', $modUri . '/student', 'accounts');
+		$menu->add('agent', 'Agents', $modUri . '/agent', 'accounts');
 	}
 
 	/**

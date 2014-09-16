@@ -25,5 +25,12 @@ return array(
 	'addStudentsheet'	=> array(
 		'name'			=> 'required',
 		),
+	'addStudent'		=> array(
+		'first_name'	=> 'required|minLength:2',
+		'last_name'		=> 'required|minLength:2',
+		'email'			=> 'required|email',
+		'password'		=> 'required',
+		'conf_password'	=> 'required|equal:password',
+		),
 
 	);
