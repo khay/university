@@ -2,6 +2,7 @@
 
 return array(
 	'title' => array(
+		'index'		=> '%s | Agent',
 		'add'		=> 'Add a Student',
 		'edit'		=> 'Edit Student',
 		'delete'	=> 'Delete Student',

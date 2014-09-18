@@ -1,0 +1,43 @@
+<div class="breadcrumb">
+	<div class="container">
+		<div class="col-md-12">
+			<h2>				
+				{{ $agent->full_name }}
+			</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="col-md-3">
+		<span class="img-thumbnail">{{ $agent->profileImage(200) }}</span>
+		<ul class="nav nav-pills nav-stacked">
+  			<li><a href="#">Edit Profile</a></li>
+		</ul>
+	</div>
+	<div class="col-md-9">
+		<h3>Your students</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+			{{ loop($students as $student => $s) }}						
+				<tr>
+					<td>{{ $s['full_name'] }}</td>
+					<td>{{ $s->email }}</td>
+					<td>
+						<a href="#" class="btn btn-primary">View Profile</a>
+						<a href="#" class="btn btn-success">Edit</a>
+						<a href="#" class="btn btn-danger">Delete</a>
+					</td>
+				</tr>				
+			{{ endloop }}
+			</tbody>
+		</table>
+	</div>
+</div>

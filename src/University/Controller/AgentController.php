@@ -26,7 +26,9 @@ class AgentController extends \PrivateController
 		$this->agent = Auth::getUser();
 		$agent = Auth::getGroupProvider()->findBy('name', 'Agents');
 
-		if(!$this->agent->inGroup($agent)) return Redirect::to('/');		
+		if(!$this->agent->inGroup($agent)) return Redirect::to('/');
+
+		$this->template->set('agent', $this->agent);	
 	}
 
 	/**
@@ -36,11 +38,17 @@ class AgentController extends \PrivateController
 	 **/
 	public function index() 
 	{
-		$students = Course::like('agentId', $this->agent->id)->get();
-		dump($students);exit;
-		foreach ($students as $student) {
-			dump($student, true);
-		}		
+		$students = array();
+
+		$agents = Agent::like('agentId', $this->agent->id)->get();		
+		foreach ($agents as $agent) {
+			$students = Auth::get($agent->studentId);
+		}
+
+		$this->template->title(sprintf(t('university::agent.title.index'), $this->agent->full_name))
+            ->breadcrumb(t('university::agent.title.index'))
+            ->setPartial('agent/index')
+            ->set('students', $students);            
 	}
 
 	/**
@@ -54,7 +62,8 @@ class AgentController extends \PrivateController
 		if (is_null($agentId) or ($agentId != $this->agent->id)) 
 			return $this->notFound();
 
-		if (Input::isPost()) {			
+		if (Input::isPost()) {
+			dump(Input::get(), true);
 			$validate = $this->validate(Config::get('university::validator.addStudent'));	
 		
 			if($validate->fail()) {
