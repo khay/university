@@ -38,12 +38,9 @@ class AgentController extends \PrivateController
 	 **/
 	public function index() 
 	{
-		$students = array();
+		$agents = Agent::where('agentId', "=" , $this->agent->id)->get();
 
-		$agents = Agent::like('agentId', $this->agent->id)->get();		
-		foreach ($agents as $agent) {
-			$students = Auth::get($agent->studentId);
-		}
+		$students = $this->getStudents($agents);
 
 		$this->template->title(sprintf(t('university::agent.title.index'), $this->agent->full_name))
             ->breadcrumb(t('university::agent.title.index'))
@@ -57,24 +54,18 @@ class AgentController extends \PrivateController
 	 * @param integer $agentId
 	 * @return void
 	 */
-	public function addStudent($agentId = null)
+	public function addStudent()
 	{
-		if (is_null($agentId) or ($agentId != $this->agent->id)) 
-			return $this->notFound();
-
 		if (Input::isPost()) {
-			dump(Input::get(), true);
 			$validate = $this->validate(Config::get('university::validator.addStudent'));	
 		
 			if($validate->fail()) {
 				$errors = $validate->getErrors();
 				Flash::error(t('university::agent.message.error.default'));
                 $this->template->set('errors', $errors);
-                dump($errors, true);
 			} else {
 				$this->saveValues(Input::get('method'));
 				Flash::success(t('university::agent.message.success.add'));
-				dump('Yay', true);
 				return \Redirect::to('university/agent');
 			}
         }
@@ -82,7 +73,7 @@ class AgentController extends \PrivateController
         $this->template->title(t('university::agent.title.add'))
             ->breadcrumb(t('university::agent.title.add'))
             ->setPartial('agent/form')
-            ->set('agentId', $agentId)
+            ->set('agentId', $this->agent->id)
             ->set('method', 'add');
 	}
 
@@ -92,13 +83,14 @@ class AgentController extends \PrivateController
 	 * @param integer $agentId
 	 * @return void
 	 **/
-	public function editStudent($agentId = null) 
+	public function editStudent($studentId = null) 
 	{
 		if (Input::isPost()) {
-			$validate = $this->validate(Config::get('university::validator.addStudent'));
+			$validate = $this->validate(Config::get('university::validator.editStudent'));
 		
 			if($validate->fail()) {
 				$errors = $validate->getErrors();
+				$studentId = Input::get('studentId');
 				Flash::error(t('university::agent.message.error.default'));
                 $this->template->set('errors', $errors);
 			} else {
@@ -108,11 +100,33 @@ class AgentController extends \PrivateController
 			}
         }
 
+       	if (is_null($studentId)) return $this->notFound();
+
+        $student = Auth::getUserProvider()->findById($studentId);
+
         $this->template->title(t('university::agent.title.edit'))
             ->breadcrumb(t('university::agent.title.edit'))
             ->setPartial('agent/form')
-            ->set('agentId', $agentId)
+            ->set('student', $student)
+            ->set('agentId', $this->agent->id)
             ->set('method', 'edit');
+	}
+
+	/**
+	 * View student information of a student
+	 *
+	 * @param int $id
+	 * @return void
+	 **/
+	public function viewStudent($agentId = null, $studentId = null)
+	{
+		if (is_null($agentId) or ($agentId != $this->agent->id)) 
+			return $this->notFound();
+
+		$this->template->title(t('university::agent.title.student'))
+            ->breadcrumb(t('university::agent.title.student'))
+            ->setPartial('agent/student')
+            ->set('student', $student);            
 	}
 
 	/**
@@ -122,7 +136,26 @@ class AgentController extends \PrivateController
 	 * @param string $studentId
 	 * @return void
 	 **/
-	public function deleteStudent($agentId = null, $studentId) {}
+	public function deleteStudent($studentId = null) 
+	{
+		if (is_null($studentId)) return $this->notFound();
+
+    	$user = Auth::getUserProvider()->findById($studentId);
+    	$agent = Agent::where('userId', "=" , $user->id)->get();
+
+    	$user->delete();
+    	$agent->delete();
+
+        Flash::success(t('university::agent.message.delete'));
+        return Redirect::to('university/agent');
+	}
+
+	/**
+	 * Update agent information
+	 *
+	 * @return void	 
+	 **/
+	public function editAgent() {}
 
 	/**
 	 * Save values of a student with associated agent
@@ -142,18 +175,18 @@ class AgentController extends \PrivateController
                 'activated' => 1
             ));
 
-			$agent->agentId = Input::get('agentId');
+			$agent->agentId = $this->agent->id;
 			$agent->userId = $user->id;
 			$agent->save();	
 		} else {			
-			$agent = Agent::find(Input::get('agentId'));
-			$user = Auth::getUserProvider()->findById($agent->userId);
+			$user = Auth::getUserProvider()->findById(Input::get('studentId'));
 
-			// Update student info
 			$user->first_name = Input::get('first_name');
 			$user->last_name = Input::get('last_name');
 			$user->email = Input::get('email');
-			$user->password = Input::get('password');
+			
+			if (!empty(Input::get('password')))
+				$user->password = Input::get('password');
 
 			$user->save();
 		}
@@ -168,6 +201,24 @@ class AgentController extends \PrivateController
 	protected function validate($rules)
 	{	
 		return new Validation(Input::get('*'), $rules);
+	}
+
+	/**
+	 * Get students information of an agent
+	 *
+	 * @param object $agents
+	 * @return array
+	 * @author 
+	 **/
+	protected function getStudents($agents)
+	{
+		$students = array();
+
+		foreach ($agents as $key => $agent) {						
+			$students[] = Auth::find($agent->userId);
+		}
+
+		return $students;
 	}
 
 }

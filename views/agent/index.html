@@ -12,11 +12,12 @@
 	<div class="col-md-3">
 		<span class="img-thumbnail">{{ $agent->profileImage(200) }}</span>
 		<ul class="nav nav-pills nav-stacked">
-  			<li><a href="#">Edit Profile</a></li>
+  			<li><a href="{{ url('university/agent/edit') }}">Account Settings</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9">
-		<h3>Your students</h3>
+		<h3 class="pull-left">Your students</h3>
+		<span class="pull-right"><a href="{{ url('university/agent/student/add') }}" class="btn btn-primary">Add New Student</a></span>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -26,14 +27,14 @@
 				</tr>
 			</thead>
 			<tbody>
-			{{ loop($students as $student => $s) }}						
+			{{ loop($students as $s) }}						
 				<tr>
 					<td>{{ $s['full_name'] }}</td>
 					<td>{{ $s->email }}</td>
 					<td>
-						<a href="#" class="btn btn-primary">View Profile</a>
-						<a href="#" class="btn btn-success">Edit</a>
-						<a href="#" class="btn btn-danger">Delete</a>
+						<a href="{{ url('university/agent/student/view/'.$s->id) }}" class="btn btn-primary">View Profile</a>
+						<a href="{{ url('university/agent/student/edit/'.$s->id) }}" class="btn btn-success">Edit</a>
+						<a href="{{ url('university/agent/student/delete/'.$s->id) }}" class="btn btn-danger confirm_delete">Delete</a>
 					</td>
 				</tr>				
 			{{ endloop }}

@@ -16,8 +16,9 @@ return array(
 		),
 	'message'	=> array(
 		'success'		=> array(
-			'add'		=> 'Successfully added new course.',
-			'delete'	=> 'Successfully deleted a course.',
+			'add'		=> 'Successfully added new student.',
+			'edit'		=> 'Successfully updated.',
+			'delete'	=> 'Successfully deleted a student.',
 			),
 		'error'			=> array(
 			'default'	=> 'The following errors are occured. Please check and try again.',

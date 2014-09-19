@@ -32,5 +32,12 @@ return array(
 		'password'		=> 'required',
 		'conf_password'	=> 'required|equal:password',
 		),
+	'editStudent'		=> array(
+		'first_name'	=> 'required|minLength:2',
+		'last_name'		=> 'required|minLength:2',
+		'email'			=> 'required|email',
+		'password'		=> '',
+		'conf_password'	=> 'equal:password',
+		),
 
 	);

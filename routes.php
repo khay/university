@@ -48,7 +48,7 @@ Route::group('@admin/university/studentsheet', function() {
 
 Route::group('university/agent', function() {
 	Route::get('', 'University\Agent::index', 'agent');
-	Route::add('student/add/{int:agentId}?', 'University\Agent::addStudent', 'agentStudentAdd');
-	Route::add('student/edit/{string:id}?', 'University\Agent::editStudent', 'agentStudentEdit');
-	Route::add('student/delete/{string:id}', 'University\Agent::deleteStudent', 'agentStudentDelete');
+	Route::add('student/add/', 'University\Agent::addStudent', 'agentStudentAdd');
+	Route::add('student/edit/{int:studentId}?', 'University\Agent::editStudent', 'agentStudentEdit');
+	Route::add('student/delete/{int:studentId}?', 'University\Agent::deleteStudent', 'agentStudentDelete');
 });
