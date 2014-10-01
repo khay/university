@@ -45,7 +45,7 @@ class AgentController extends \PrivateController
 		$this->template->title(sprintf(t('university::agent.title.index'), $this->agent->full_name))
             ->breadcrumb(t('university::agent.title.index'))
             ->setPartial('agent/index')
-            ->set('students', $students);            
+            ->set('students', $students);
 	}
 
 	/**
