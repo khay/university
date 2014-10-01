@@ -1,0 +1,36 @@
+<div class="breadcrumb">
+	<div class="container">
+		<div class="col-md-12">
+			<h2>{{ t('university::student.title.edit') }}</h2>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="col-md-12">
+
+	{{ Form::start(url("university/student/edit"), 'studentAddForm', false, array('class' => 'form')) }}
+
+	<div class="form-wrapper">
+		<div class="form-group">
+			<label for="name">{{ Form::label(t('university::agent.label.first_name'), 'first_name') }}</label>
+			{{ Form::input('first_name', isset($student->first_name) ? $student->first_name : '', 'text', array('class' => 'form-control')) }}
+		</div>
+		<div class="form-group">
+			<label for="name">{{ Form::label(t('university::agent.label.last_name'), 'last_name') }}</label>
+			{{ Form::input('last_name', isset($student->last_name) ? $student->last_name : '', 'text', array('class' => 'form-control')) }}
+		</div>
+		<div class="form-group">
+			<label for="about">{{ Form::label(t('university::agent.label.email'), 'email') }}</label>
+			{{ Form::email('email', isset($student->email) ? $student->email : '', array('class' => 'form-control')) }}
+		</div>
+					
+		{{ Form::submit('submit', t('university::student.label.update'), array('id' => 'add', 'class' => 'btn btn-success')) }}
+
+		<a href="{{ url("university/agent/") }}">{{ t('university::university.label.cancel') }}</a>
+	</div>
+
+	{{ Form::end( ) }}
+
+	</div>
+</div>

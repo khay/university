@@ -7,9 +7,9 @@ use Auth;
 
 class Widget extends \Reborn\Widget\AbstractWidget
 {
-    protected $agent;
+    protected $_user;
 
-    protected $title;
+    protected $_title;
 
     protected $properties = array(
             'name' => 'Online Uni Application',
@@ -37,24 +37,27 @@ class Widget extends \Reborn\Widget\AbstractWidget
 
     public function __construct()
     {
-        $this->agent = Auth::getUser();
-        $this->title = $this->get('title', '');
+        $this->_user = Auth::getUser();
+
+        $agent = Auth::getGroupProvider()->findBy('name', 'Agents');
+
+        $this->_title = $this->get('title', '');
     }
 
     public function header()
     {
         if (Auth::check()) {
             
-            $checkAgent = Agent::where('agentId', "=" , 2)->get();
+            $checkAgent = Agent::where('agentId', "=" , $this->_user->id)->count();
 
             return $this->show(array(
-                'user' => $this->agent,
+                'user' => $this->_user,
                 'checkAgent' => $checkAgent,
-                'title' => $this->title), 
+                'title' => $this->_title), 
             'navdisplay');
 
         } else {            
-            return $this->show(array('title' => $this->title), 'navlogin');
+            return $this->show(array('title' => $this->_title), 'navlogin');
         }
     }
 }

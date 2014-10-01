@@ -23,21 +23,23 @@ class StudentController extends \PrivateController
 	 **/
 	public function before() 
 	{
-		// Get current logged in user and check in Students group or not
 		$this->_student = Auth::getUser();
 		$student = Auth::getGroupProvider()->findBy('name', 'Students');
-
-		if(!$this->_student->inGroup($student)) return Redirect::to('/');
-
 		$this->template->set('student', $this->_student);	
 	}
 
 	/**
-	 * Students will starts from here
+	 * Student will starts from here
 	 *
 	 * @return void
 	 **/
-	public function index() {}
+	public function index() 
+	{
+		$this->template->title(sprintf(t('university::student.title.index'), $this->_student->full_name))
+            ->breadcrumb(t('university::student.title.index'))
+            ->setPartial('student/index')
+            ->set('student', $this->_student);
+	}
 
 	/**
 	 * The same as user profile edit
@@ -45,7 +47,27 @@ class StudentController extends \PrivateController
 	 *
 	 * @return void
 	 **/
-	public function edit() {}
+	public function edit()
+	{
+		if (Input::isPost()) {
+			$validate = $this->validate(Config::get('university::validator.editStudent'));
+		
+			if($validate->fail()) {
+				$errors = $validate->getErrors();				
+				Flash::error(t('university::agent.message.error.default'));
+                $this->template->set('errors', $errors);
+			} else {
+				$this->saveValues(Input::get('method'));
+				Flash::success(t('university::agent.message.success.add'));
+				return \Redirect::to('university/agent');
+			}
+        }     
+
+        $this->template->title(t('university::student.title.edit'))
+            ->breadcrumb(t('university::student.title.edit'))
+            ->setPartial('student/form')
+            ->set('student', $this->_student);        
+	}
 
 	/**
 	 * You don't like your old password?

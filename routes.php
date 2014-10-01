@@ -52,3 +52,10 @@ Route::group('university/agent', function() {
 	Route::add('student/edit/{int:studentId}?', 'University\Agent::editStudent', 'agentStudentEdit');
 	Route::add('student/delete/{int:studentId}?', 'University\Agent::deleteStudent', 'agentStudentDelete');
 });
+
+// Student
+
+Route::group('university/student', function() {
+	Route::get('', 'University\Student::index', 'student');
+	Route::add('edit', 'University\Student::edit', 'studentEdit');
+});
